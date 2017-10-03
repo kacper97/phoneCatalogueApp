@@ -1,4 +1,5 @@
 import React from 'react';
+import './App.css' 
 
     class SelectBox extends React.Component {
       render() {
@@ -16,7 +17,19 @@ import React from 'react';
     }
 
 
-    // TODO (PhoneItem component)
+    class PhoneItem extends React.Component{ 
+      render(){
+        return(
+          <li className ="thumbnail phone-listing">
+           <a className ="thumb">
+              <img alt={this.props.phone.name}
+               src={this.props.phone.imageUrl}/> </a>
+              <h4>{this.props.phone.name} </h4>
+          <p>{this.props.phone.snippet}</p>
+        </li>
+          )
+      }
+    }
 
 
     class FilteredPhoneList extends React.Component {
@@ -42,7 +55,7 @@ import React from 'react';
                  <div className="container-fluid">
                    <div className="row">
                        <SelectBox />
-                       {/* TODO */}
+                       <FilteredPhoneList phones={this.props.phones}/>
                   </div> 
                   </div>                   
                 </div>
