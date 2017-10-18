@@ -1,21 +1,37 @@
 import React from 'react';
 import './App.css' 
+import _ from 'lodash';
 
     class SelectBox extends React.Component {
-      render() {
-           return (
-             <div className="col-md-10">
-            <input type="text" placeholder="Search" />
-            Sort by:
-            <select>
-              <option value="name">Alphabetical</option>
-              <option value="age">Newest</option>
-            </select>
-             </div>
-            );
-          }
-    }
+    handleChange = (e, type, value) => {
+        e.preventDefault();
+        this.props.onUserInput( type,value);
+    };
 
+    handleTextChange = (e) => {
+        this.handleChange( e, 'search', e.target.value);
+    };
+
+    handleSortChange = (e) => {
+        this.handleChange(e, 'sort', e.target.value);
+    };
+
+    render() {
+        return (
+            <div className="col-md-10">
+                <input type="text" placeholder="Search" 
+                    value={this.props.filterText}
+                    onChange={this.handleTextChange} />
+         Sort by:
+                <select id="sort" value={this.props.order } 
+                    onChange={this.handleSortChange} >
+                    <option value="name">Alphabetical</option>
+                    <option value="age">Newest</option>
+                </select>
+            </div>
+        );
+      }
+  }
 
     class PhoneItem extends React.Component{ 
       render(){
@@ -48,20 +64,36 @@ import './App.css'
     }
 
     class PhoneCatalogueApp extends React.Component {
-      render() {
-          return (
-              <div className="view-container">
-              <div className="view-frame">
-                 <div className="container-fluid">
+    state = { search: '', sort: 'name' };
+
+    handleChange = (type, value) => {
+        if ( type === 'search' ) {
+            this.setState( { search: value } ) ;
+        } else {
+            this.setState( { sort: value } ) ;
+        }
+    };
+            render() {
+             let list = this.props.phones.filter( (p) => {
+             return p.name.toLowerCase().search(
+              this.state.search.toLowerCase() ) !== -1 ;
+      } );
+      let filteredList = _.sortBy(list, this.state.sort) ;
+         return (
+                <div className="view-container">
+                <div className="view-frame">
+                   <div className="container-fluid">
                    <div className="row">
-                       <SelectBox />
-                       <FilteredPhoneList phones={this.props.phones}/>
+                      <SelectBox onUserInput={this.handleChange } 
+                             filterText={this.state.search} 
+                             sort={this.state.sort} />
+                       <FilteredPhoneList phones={filteredList} />
                   </div> 
                   </div>                   
                 </div>
               </div>
-          );
-      }
+         );
     }
+  }
 
-    export default PhoneCatalogueApp;
+  export default PhoneCatalogueApp;
