@@ -1,6 +1,8 @@
 import React from 'react';
 import './App.css' 
 import _ from 'lodash';
+import Phones from './Data';
+import { Link } from 'react-router'; 
 
     class SelectBox extends React.Component {
     handleChange = (e, type, value) => {
@@ -33,19 +35,19 @@ import _ from 'lodash';
       }
   }
 
-    class PhoneItem extends React.Component{ 
-      render(){
-        return(
-          <li className ="thumbnail phone-listing">
-           <a className ="thumb">
-              <img alt={this.props.phone.name}
-               src={this.props.phone.imageUrl}/> </a>
-              <h4>{this.props.phone.name} </h4>
-          <p>{this.props.phone.snippet}</p>
-        </li>
-          )
-      }
-    }
+    class PhoneItem extends React.Component {
+       render() {
+           return (
+                <li className="thumbnail phone-listing">
+                  <Link to={'/phones/' + this.props.phone.id} className="thumb">
+                       <img src={"./phoneSpecs/" + this.props.phone.imageUrl} 
+                        alt={this.props.phone.name} /> </Link>
+                  <Link to={'/phones/' + this.props.phone.id}> {this.props.phone.name}</Link>
+                  <p>{this.props.phone.snippet}</p>
+                </li>
+               ) ;
+         }
+     } ;
 
 
     class FilteredPhoneList extends React.Component {
@@ -74,7 +76,7 @@ import _ from 'lodash';
         }
     };
             render() {
-             let list = this.props.phones.filter( (p) => {
+             let list = Phones.filter( (p) => {
              return p.name.toLowerCase().search(
               this.state.search.toLowerCase() ) !== -1 ;
       } );
