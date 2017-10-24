@@ -4,12 +4,12 @@
 
     class Specification extends React.Component {
       render(){
-          let phone = this.props.phone ;           
-          let availability = phone.availability.map(function(avb,index) {
-              return <dd key={index}>{avb} </dd> ;
+          var phone = this.props.phone ;           
+          var availability = phone.availability.map(function(avb,index) {
+              return <dd key={index}>{avb}</dd> ;
               }) ;
           let dimensions = phone.sizeAndWeight.dimensions.map(function(dim,index) {
-              return  <dd key={index}>{dim} </dd> ;
+              return  <dd key={index}>{dim}</dd> ;
               }) ;
           let display = (
               <div>
@@ -124,19 +124,20 @@
       }
     };
 
+    
     class ImagesSection extends React.Component { 
       render(){
           var thumbImages = this.props.phone.images.map(function(img,index) {
               return (
                 <li>
-                   <img key={index} src={"./phoneSpecs/" + img}
+                   <img key={index} src={"/phoneSpecs/" + img}
                        alt="missing" />
                 </li>
                 ) ;
               } );
           var mainImage = (
             <div className="phone-images">
-              <img src={"./phoneSpecs/" + this.props.phone.images[0]} 
+              <img src={"/phoneSpecs/" + this.props.phone.images[0]} 
                     alt={this.props.phone.name}
                     className="phone" />
             </div>
@@ -159,24 +160,25 @@
 
        componentDidMount() {
           request.get(
-             './phoneSpecs/phones/' + this.props.params.id + '.json', (err, res) => {
+             '/phoneSpecs/phones/' + this.props.params.id + '.json', (err, res) => {
                 let json = JSON.parse(res.text);
                 localCache.setPhone(json);
                 this.setState({});
            }) ;
       } 
 
-      render(){
-      	if (phone){
-      		display = (
-      		<div>
-      			<ImagesSection phone ={phone} />
-      			<Specification phone ={phone} />
-      		</div>
-      			) ;
-      	}
-
-          return (
+       render(){
+          let display = <p>No phone details</p> ; 
+          let phone = localCache.getPhone();
+           if (phone) {
+                  display =  (
+                      <div>
+                         <ImagesSection phone={phone} />
+                         <Specification  phone={phone} />       
+                    </div>
+                    ) ;
+              }
+                return (
             <div>
               {display}
             </div>

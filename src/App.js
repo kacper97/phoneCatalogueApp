@@ -39,10 +39,10 @@ import { Link } from 'react-router';
        render() {
            return (
                 <li className="thumbnail phone-listing">
-                  <Link to={'/phones/' + this.props.phone.id} className="thumb">
+                  <Link to={'./phones/' + this.props.phone.id} className="thumb">
                        <img src={"./phoneSpecs/" + this.props.phone.imageUrl} 
                         alt={this.props.phone.name} /> </Link>
-                  <Link to={'/phones/' + this.props.phone.id}> {this.props.phone.name}</Link>
+                  <Link to={'./phones/' + this.props.phone.id}> {this.props.phone.name}</Link>
                   <p>{this.props.phone.snippet}</p>
                 </li>
                ) ;
